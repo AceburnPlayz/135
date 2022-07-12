@@ -26,3 +26,28 @@ function modelLoaded() {
     console.log("Model Loaded!");
     status = true;
 }
+function gotResult(error, results){
+    if (error) {
+        console.log(error);
+        objects = results;
+    }
+    console.log(results);
+}
+function draw() {
+    image(video, 0, 0, 480, 380);
+    if(objects[i].label == object_name)
+    {
+        objectDetector.detect(gotResult);
+        for (i = 0; i < objects.length; i++) {
+            document.getElementById("status").innerHTML = "Status : Objects Detected";
+            document.getElementById("object_status").innerHTML = object_name + " Found";
+
+            fill("#FF0000");
+            percent = floor(objects[i].confidence * 100);
+            text(objects[i].confidence * 100);
+            noFill();
+            stroke("FF0000");
+            rect(objects[i].x, objects[i].y, objects[i].height);
+        }
+    }
+}
